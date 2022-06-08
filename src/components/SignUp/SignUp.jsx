@@ -1,8 +1,76 @@
 import React from "react";
 import "./signup.css";
-function SignUp() {
-  return (
-    <>
+import axios from "axios"
+
+import  { Component } from 'react'
+
+export class SignUp extends Component {
+   constructor() {
+    super();
+    this.state = {
+      fullname: "",
+      email: "",
+      batchcode: "",
+      pnumber: "",
+      snumber:"",
+    };
+    this.changefullname = this.changefullname.bind(this)
+    this.changeemail = this.changeemail.bind(this)
+    this.changebatchcode = this.changebatchcode.bind(this)
+    this.changepnumber = this.changepnumber.bind(this)
+    this.changesnumber = this.changesnumber.bind(this)
+    this.onSubmit =this.onSubmit.bind(this)
+  }
+
+  changefullname(event) {
+    this.setState({
+      fullname: event.target.value,
+    });
+  }
+  changeemail(event) {
+    this.setState({
+      email: event.target.value,
+    });
+  }
+  changebatchcode(event) {
+    this.setState({
+      batchcode: event.target.value,
+    });
+  }
+  changepnumber(event) {
+    this.setState({
+      pnumber: event.target.value,
+    });
+  }
+  changesnumber(event) {
+    this.setState({
+      snumber: event.target.value,
+    });
+  }
+
+  onSubmit(event){
+    const registered = {
+      fullName:this.state.fullName,
+      email:this.state.email,
+      batchcode:this.state.batchcode,
+      pnumber:this.state.pnumber,
+      snumber:this.state.snumber
+    }
+
+    axios.post("http://localhost:4000/signup",registered).then(response=>console.log(response.data))
+
+    this.state({
+      fullname: "",
+      email: "",
+      batchcode: "",
+      pnumber: "",
+      snumbr:""
+    })
+     event.preventDefault();
+  }
+  render() {
+    return (
+      <>
       <h1
         style={{
           display: "flex",
@@ -11,13 +79,14 @@ function SignUp() {
           padding: "15px",
           fontSize: "2rem",
           fontWeight: "bold",
-          background: "#ff1949",
+          // background: "#ff1949",
           width: "80%",
           marginLeft: "auto",
           marginRight: "auto",
           justifyContent: "center",
           borderRadius: "20px",
-          boxShadow: "10px 15px 10px 5px grey",
+          // boxShadow: "10px 15px 10px 5px grey",
+          border:"3px solid green",
           marginBottom: "30px",
           fontWeight: "bold",
         }}
@@ -32,11 +101,11 @@ function SignUp() {
           marginBottom: "50px",
           width: "80%",
           padding: "20px",
-          boxShadow: "10px 15px 10px 5px grey",
+          // boxShadow: "2px 3px 5px 3px grey",
         }}
       >
         <div className="form">
-          <form id="contactform" method="POST">
+          <form id="contactform" method="POST" action="http://localhost:4000/signup">
             <div
               style={{
                 display: "grid",
@@ -47,9 +116,9 @@ function SignUp() {
               }}
             >
               <input
-                id="name"
-                name="name"
-                placeholder="First name"
+                id="fullname"
+                name="fullname"
+                placeholder="Full Name"
                 required=""
                 tabindex="1"
                 type="text"
@@ -58,25 +127,10 @@ function SignUp() {
                   marginLeft: "100px",
                 }}
               />
-              <input
-                id="name"
-                name="name"
-                placeholder="Middle name"
-                required=""
-                tabindex="1"
-                type="text"
-                style={{ borderRadius: "10px" }}
-              />
+              
+              
 
-              <input
-                id="name"
-                name="name"
-                placeholder="Last name"
-                required=""
-                tabindex="1"
-                type="text"
-                style={{ borderRadius: "10px" }}
-              />
+              
             </div>
             <div
               style={{
@@ -95,44 +149,16 @@ function SignUp() {
                 type="email"
                 style={{ borderRadius: "10px", marginLeft: "100px" }}
               />
-
-              <input
-                id="username"
-                name="username"
-                placeholder="username"
+               <input
+                id="batchcode"
+                name="batchcode"
+                placeholder="Batch Code"
                 required=""
-                tabindex="2"
-                type="text"
-                style={{ borderRadius: "10px" }}
-              />
-            </div>
-            <div
-              style={{
-                display: "grid",
-                alignContent: "space-evenly",
-                gridTemplateColumns: "auto auto",
-                gap: "20px",
-                padding: "20px",
-              }}
-            >
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="password"
-                required=""
+                type="batchcode"
                 style={{ borderRadius: "10px", marginLeft: "100px" }}
               />
-
-              <input
-                type="password"
-                id="repassword"
-                name="repassword"
-                placeholder="repassword"
-                required=""
-                style={{ borderRadius: "10px" }}
-              />
             </div>
+            
             <div
               style={{
                 display: "grid",
@@ -143,89 +169,21 @@ function SignUp() {
               }}
             >
               <input
-                type="pmobile"
-                id="pmobile"
-                name="pmobile"
+                type="text"
+                id="pnumber"
+                name="pnumber"
                 placeholder="Parent's Mobile No."
                 required=""
                 style={{ borderRadius: "10px", marginLeft: "100px" }}
               />
 
               <input
-                type="smobile"
-                id="smobile"
-                name="smobile"
+                type="text"
+                id="snumber"
+                name="snumber"
                 placeholder="Student's Mobile No."
                 required=""
                 style={{ borderRadius: "10px" }}
-              />
-            </div>
-            <div
-              style={{
-                display: "grid",
-                alignContent: "space-evenly",
-                gridTemplateColumns: "auto auto auto",
-                gap: "20px",
-                padding: "20px",
-                marginLeft: "100px",
-              }}
-            >
-              <select className="select-style gender" name="gender">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-
-              <select className="select-style Standard" name="standard">
-                <option value="none">Standard</option>
-                <option value="Computer Science">
-                  Computer Sc Engineering
-                </option>
-                <option value="Electrical">Electrical Engineering</option>
-                <option value="Mechanical">Mechanical Engineering</option>
-              </select>
-              <select className="select-style Field" name="stream">
-                <option value="none">Field</option>
-                <option value="Computer Science">
-                  Computer Sc Engineering
-                </option>
-                <option value="Electrical">Electrical Engineering</option>
-                <option value="Mechanical">Mechanical Engineering</option>
-              </select>
-            </div>
-            <div
-              style={{
-                display: "grid",
-                alignContent: "space-evenly",
-                gridTemplateColumns: "auto auto",
-                gap: "20px",
-                padding: "20px",
-                marginLeft: "100px",
-              }}
-            >
-              <select className="select-style subject" name="subject">
-                <option value="Male">C language</option>
-                <option value="Female">C++ language</option>
-              </select>
-
-              <select className="select-style bcode" name="bcode">
-                <option value="none">Batch Code</option>
-                <option value="Computer Science">AMEE22</option>
-                <option value="Electrical">AMEE23</option>
-                <option value="Mechanical">AMEE24</option>
-              </select>
-            </div>
-            <div
-              style={{
-                marginLeft: "120px",
-              }}
-            >
-              <input
-                type="ayear"
-                id="ayear"
-                name="ayear"
-                placeholder="Academic Year"
-                required=""
-                style={{ borderRadius: "10px", width: "40%" }}
               />
             </div>
             <br></br>
@@ -251,7 +209,27 @@ function SignUp() {
         </div>
       </div>
     </>
-  );
+    )
+  }
 }
 
-export default SignUp;
+export default SignUp
+
+/* 
+
+const register = () => {
+        const { name, email, password, reEnterPassword } = user
+        if( name && email && password && (password === reEnterPassword)){
+            axios.post("http://localhost:4000/signup", user)
+            .then( res => {
+                alert(res.data.message)
+                history.push("/login")
+            })
+        } else {
+            alert("invlid input")
+        }
+        
+    }
+
+
+*/
